@@ -36,14 +36,20 @@
   },
   "lint-staged": {
     "**/*.{js,jsx,ts,tsx}": "npm run lint-staged:js",
-    "**/*.{js,jsx,tsx,ts,less,md,json}": ["prettier --write"]
+    "**/*.{js,jsx,tsx,ts,less,md,json}": [
+      "prettier --write"
+    ]
   },
-  "browserslist": ["> 1%", "last 2 versions", "not ie <= 10"],
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not ie <= 10"
+  ],
   "dependencies": {
     "@ant-design/icons": "^4.8.3",
     "@ant-design/pro-components": "^2.7.9",
     "@umijs/route-utils": "^2.2.2",
-    "antd": "^5.18.0",
+    "antd": "^5.20.4",
     "antd-style": "^3.6.2",
     "classnames": "^2.5.1",
     "omit.js": "^2.0.2",
@@ -66,8 +72,8 @@
     "@types/react-dom": "^18.3.0",
     "@types/react-helmet": "^6.1.11",
     "@umijs/fabric": "^2.14.1",
-    "@umijs/lint": "^4.2.9",
-    "@umijs/max": "^4.2.9",
+    "@umijs/lint": "^4.3.18",
+    "@umijs/max": "^4.3.18",
     "cross-env": "^7.0.3",
     "eslint": "^8.57.0",
     "express": "^4.19.2",
@@ -85,5 +91,7 @@
     "umi-presets-pro": "^2.0.3",
     "umi-serve": "^1.9.11"
   },
-  "engines": { "node": ">=12.0.0" }
+  "engines": {
+    "node": ">=12.0.0"
+  }
 }
