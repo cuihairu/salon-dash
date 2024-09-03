@@ -19,6 +19,19 @@ interface ResponseStructure {
   showType?: ErrorShowType;
 }
 
+const authHeaderInterceptor = (url: string, options: RequestConfig) => {
+  const token = localStorage.getItem('token');
+  if (token){
+    return {
+      url: `${url}`,
+      options: { ...options, interceptors: true, headers: { Authorization: `Bearer ${token}` } },
+    };
+  }
+  return {
+    url: `${url}`,
+    options: { ...options, interceptors: true},
+  };
+};
 /**
  * @name 错误处理
  * pro 自带的错误处理， 可以在这里做自己的改动
@@ -89,17 +102,26 @@ export const errorConfig: RequestConfig = {
   requestInterceptors: [
     (config: RequestOptions) => {
       // 拦截请求配置，进行个性化处理。
-      const url = config?.url?.concat('?token = 123');
+      const url = config?.url?.concat(`?ts=${Date.now()}`);
       return { ...config, url };
     },
+    authHeaderInterceptor
   ],
 
   // 响应拦截器
   responseInterceptors: [
     (response) => {
+      if (response.status === 401) {
+        notification.error({
+          message: '需要验证',
+          description: '需要验证，或者验证已经过期，请重新验证登录。'
+        })
+        localStorage.removeItem('token');
+        window.location.href = '/user/login';
+        return response;
+      }
       // 拦截响应数据，进行个性化处理
       const { data } = response as unknown as ResponseStructure;
-
       if (data?.success === false) {
         message.error('请求失败！');
       }
