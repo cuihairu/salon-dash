@@ -29,6 +29,28 @@ export default [
     component: './Welcome',
   },
   {
+    path: '/service',
+    name: 'service',
+    icon: 'smile',
+    access: 'canAdmin',
+    routes: [
+      {
+        path: '/service',
+        redirect: '/service/Service',
+      },
+      {
+        path: '/service/category',
+        name: 'category',
+        component: './service/Category',
+      },
+      {
+        path: '/service/Service',
+        name: 'service',
+        component: './service/Service',
+      }
+    ]
+  },
+  {
     path: '/admin',
     name: 'admin',
     icon: 'crown',

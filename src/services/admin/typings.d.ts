@@ -99,4 +99,13 @@ declare namespace API {
     description?: string;
     type?: NoticeIconItemType;
   };
+  type CreateCategoryParams = {
+    name?: string;
+    desc?: string;
+  };
+  type CreateCategoryResult = {
+    id?: string;
+    name?: string;
+    desc?: string;
+  };
 }
