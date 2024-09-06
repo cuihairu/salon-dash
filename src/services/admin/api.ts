@@ -1,9 +1,10 @@
 // @ts-ignore
 /* eslint-disable */
 import { request } from '@umijs/max';
+import {API} from "@/services/admin/typings"
 
 
-/** 获取当前的用户 GET /api/currentUser */
+/** 获取当前的用户 GET /api/admin/current */
 export async function currentUser(options?: { [key: string]: any }) {
   return request<API.CurrentUser>('/api/admin/current', {
     method: 'GET',
@@ -11,7 +12,7 @@ export async function currentUser(options?: { [key: string]: any }) {
   });
 }
 
-/** 退出登录接口 POST /api/login/outLogin */
+/** 退出登录接口 POST /api/admin/logout */
 export async function outLogin(options?: { [key: string]: any }) {
   return request<Record<string, any>>('/api/admin/logout', {
     method: 'POST',
@@ -19,7 +20,7 @@ export async function outLogin(options?: { [key: string]: any }) {
   });
 }
 
-/** 登录接口 POST /api/login/account */
+/** 登录接口 POST /api/admin/login */
 export async function login(body: API.LoginParams, options?: { [key: string]: any }) {
   return request<API.LoginResult>('/api/admin/login', {
     method: 'POST',
@@ -93,12 +94,44 @@ export async function removeRule(options?: { [key: string]: any }) {
 }
 
 export async function createCategory(body: API.CreateCategoryParams,options?: { [key: string]: any }) {
-  return request<API.CreateCategoryResult>('/api/category', {
+  return request<API.Category>('/api/category', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
     data: body,
+    ...(options || {}),
+  });
+}
+
+export async function updateCategory(id:React.Key, body: API.CreateCategoryParams,options?: { [key: string]: any }) {
+  return request<API.Category>(`/api/category/${id}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: body,
+    ...(options || {}),
+  });
+}
+
+export async function getAllCategory(options?: { [key: string]: any }) {
+  return request<API.AllCategory>('/api/category', {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    ...(options || {}),
+  });
+}
+
+export async function removeCategory(id:React.Key, options?: { [key: string]: any }) {
+  console.log(`id:${id}`)
+  return request<{}>(`/api/category/${id}`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+    },
     ...(options || {}),
   });
 }

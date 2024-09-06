@@ -1,6 +1,8 @@
 // @ts-ignore
 /* eslint-disable */
 
+import React from "react";
+
 declare namespace API {
   type CurrentUser = {
     name?: string;
@@ -99,13 +101,26 @@ declare namespace API {
     description?: string;
     type?: NoticeIconItemType;
   };
+
   type CreateCategoryParams = {
     name?: string;
-    desc?: string;
+    description?: string;
   };
-  type CreateCategoryResult = {
-    id?: string;
+
+  type Category = {
+    id: React.Key;
     name?: string;
-    desc?: string;
+    description?: string;
+    created_at?: number
+    update_at?: number;
+    children?: Category[];
   };
+
+  type ListData<T> = {
+    data: T;
+    total?: number;
+    success?: boolean;
+    // other fields if needed
+  };
+  type AllCategory = ListData<Category[]>;
 }

@@ -5,41 +5,11 @@ import {
     ProFormField,
     ProFormRadio,
 } from '@ant-design/pro-components';
-import React, { useState } from 'react';
-import { createCategory } from '@/services/admin/api';
-const waitTime = (time: number = 100) => {
-    return new Promise((resolve) => {
-        setTimeout(() => {
-            resolve(true);
-        }, time);
-    });
-};
+import React, { useState,useEffect } from 'react';
+import {API} from '@/services/admin/typings';
+import {createCategory,updateCategory, getAllCategory,removeCategory} from '@/services/admin/api';
 
-type DataSourceType = {
-    id: React.Key;
-    name?: string;
-    description?: string;
-    created_at?: number;
-    update_at?: number;
-    children?: DataSourceType[];
-};
-
-const defaultData: DataSourceType[] = [
-    {
-        id: 6247,
-        name: '活动名称一',
-        description: '这个活动真好玩',
-        created_at: 1590486176000,
-        update_at: 1590486176000,
-    },
-    {
-        id: 6246,
-        name: '活动名称二',
-        description: '这个活动真好玩',
-        created_at: 1590481162000,
-        update_at: 1590481162000,
-    },
-];
+type DataSourceType = API.Category
 
 export default () => {
     const [editableKeys, setEditableRowKeys] = useState<React.Key[]>([]);
@@ -47,12 +17,15 @@ export default () => {
     const [position, setPosition] = useState<'top' | 'bottom' | 'hidden'>(
         'bottom',
     );
+    useEffect(() => {
+        console.log('DataSource updated:', dataSource);
+    }, [dataSource]);
 
     const columns: ProColumns<DataSourceType>[] = [
         {
             title: '项目分类id',
             dataIndex: 'id',
-            tooltip: '只读，使用form.getFieldValue获取不到值',
+            //tooltip: '只读，使用form.getFieldValue获取不到值',
             formItemProps: (form, { rowIndex }) => {
                 return {
                     rules:
@@ -61,14 +34,14 @@ export default () => {
             },
             // 第一行不允许编辑
             editable: (text, record, index) => {
-                return index !== 0;
+                return false;
             },
             width: '12%',
         },
         {
             title: '项目类型名称',
             dataIndex: 'name',
-            tooltip: '只读，使用form.getFieldValue可以获取到值',
+            //tooltip: '只读，使用form.getFieldValue可以获取到值',
             readonly: false,
             width: '15%',
         },
@@ -92,7 +65,7 @@ export default () => {
         {
             title: '创建时间',
             dataIndex: 'created_at',
-            valueType: 'date',
+            valueType: 'dateTime',
         },
         {
             title: '操作',
@@ -109,8 +82,11 @@ export default () => {
                 </a>,
                 <a
                     key="delete"
-                    onClick={() => {
-                        setDataSource(dataSource.filter((item) => item.id !== record.id));
+                    onClick={async () => {
+                        const ret = await removeCategory(record.id);
+                        if (ret) {
+                            setDataSource(dataSource.filter((item) => item.id !== record.id));
+                        }
                     }}
                 >
                     删除
@@ -124,7 +100,7 @@ export default () => {
             <EditableProTable<DataSourceType>
                 rowKey="id"
                 headerTitle="可编辑表格"
-                maxLength={5}
+                //maxLength={5}
                 scroll={{
                     x: 960,
                 }}
@@ -132,7 +108,7 @@ export default () => {
                     position !== 'hidden'
                         ? {
                             position: position as 'top',
-                            record: () => ({ id: (Math.random() * 1000000).toFixed(0) }),
+                            record: () => ({ id: 0}),
                         }
                         : false
                 }
@@ -145,54 +121,51 @@ export default () => {
                             onChange: (e) => setPosition(e.target.value),
                         }}
                         options={[
-                            {
-                                label: '添加到顶部',
-                                value: 'top',
-                            },
-                            {
-                                label: '添加到底部',
-                                value: 'bottom',
-                            },
-                            {
-                                label: '隐藏',
-                                value: 'hidden',
-                            },
                         ]}
                     />,
                 ]}
                 columns={columns}
-                request={async () => ({
-                    data: defaultData,
-                    total: 3,
-                    success: true,
-                })}
+                request={async (params={},sort,filter) => {
+                    console.log(params);
+                    console.log(sort);
+                    console.log(filter);
+                    const categoryList = await getAllCategory();
+                    console.log(categoryList);
+                    setDataSource(categoryList.data);
+                    return categoryList
+                }}
                 value={dataSource}
-                onChange={setDataSource}
+                onChange={(newDataSource) => {
+                    // 不处理数据源，只设置可编辑的行
+                    console.log('onChange called:', newDataSource);
+                }}
                 editable={{
                     type: 'multiple',
                     editableKeys,
                     onSave: async (rowKey, data, row) => {
                         console.log(rowKey, data, row);
-                        let ret = await createCategory(data as API.CreateCategoryParams);
-                        console.log(ret);
-                        await waitTime(2000);
+                        let ret;
+                        if (data.id !== 0) {
+                            ret = await updateCategory(data.id, data as API.CreateCategoryParams);
+                            console.log('Updated:', ret);
+                        } else {
+                            ret = await createCategory(data as API.CreateCategoryParams);
+                            console.log('Created:', ret);
+                        }
+
+                        setDataSource((prevDataSource) => {
+                            if (data.id !== 0) {
+                                return prevDataSource.map((item) =>
+                                    item.id === data.id ? { ...item, ...ret } : item
+                                );
+                            } else {
+                                return [...prevDataSource, ret];
+                            }
+                        });
                     },
                     onChange: setEditableRowKeys,
                 }}
             />
-            <ProCard title="表格数据" headerBordered collapsible defaultCollapsed>
-                <ProFormField
-                    ignoreFormItem
-                    fieldProps={{
-                        style: {
-                            width: '100%',
-                        },
-                    }}
-                    mode="read"
-                    valueType="jsonCode"
-                    text={JSON.stringify(dataSource)}
-                />
-            </ProCard>
         </>
     );
 };

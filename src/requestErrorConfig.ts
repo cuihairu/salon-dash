@@ -119,6 +119,24 @@ export const errorConfig: RequestConfig = {
         localStorage.removeItem('token');
         window.location.href = '/user/login';
         return response;
+      }else if (response.status === 400) {
+        notification.error({
+          message: '请求参数错误',
+          description: '请求参数错误，请联系开发人员'
+        })
+        return response;
+      }else if (response.status === 403) {
+        notification.error({
+          message: '权限不足',
+          description: '权限不足'
+        })
+        return response;
+      } else if (response.status === 500) {
+        notification.error({
+          message: '服务器端错误',
+          description: '服务器端错误，请联系开发人员'
+        })
+        return response;
       }
       // 拦截响应数据，进行个性化处理
       const { data } = response as unknown as ResponseStructure;
