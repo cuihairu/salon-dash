@@ -7,6 +7,7 @@ import {history, Link} from '@umijs/max';
 import defaultSettings from '../config/defaultSettings';
 import {errorConfig} from './requestErrorConfig';
 import {currentUser as queryCurrentUser} from '@/services/admin/api';
+import {API} from '@/services/admin/typings';
 import React from 'react';
 
 const isDev = process.env.NODE_ENV === 'development';

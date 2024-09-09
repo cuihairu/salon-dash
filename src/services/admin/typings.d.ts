@@ -2,6 +2,7 @@
 /* eslint-disable */
 
 import React from "react";
+import {string} from "prop-types";
 
 declare namespace API {
   type CurrentUser = {
@@ -123,4 +124,21 @@ declare namespace API {
     // other fields if needed
   };
   type AllCategory = ListData<Category[]>;
+  type Service = {
+    id: number;
+    name: string;
+    category_id: number;
+    category_name: string;
+    intro?: string;
+    cover?: string;
+    content?: string;
+    duration?: number;
+    price?: number;
+    amount?: number;
+    recommended?: boolean;
+    created_at?: number;
+    updated_at?: number;
+  };
+  type AllService = ListData<Service[]>;
+  type Files =  string[];
 }

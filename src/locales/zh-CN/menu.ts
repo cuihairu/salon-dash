@@ -17,6 +17,8 @@ export default {
   'menu.service':'项目管理',
   'menu.service.category':'项目分类',
   'menu.service.service':'项目管理',
+  'menu.file':'文件管理',
+  'menu.file.manager':'静态文件',
   'menu.form': '表单页',
   'menu.form.basic-form': '基础表单',
   'menu.form.step-form': '分步表单',

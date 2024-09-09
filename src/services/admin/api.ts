@@ -116,7 +116,7 @@ export async function updateCategory(id:React.Key, body: API.CreateCategoryParam
 }
 
 export async function getAllCategory(options?: { [key: string]: any }) {
-  return request<API.AllCategory>('/api/category', {
+  return request<API.AllCategory>('/api/category/', {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -129,6 +129,26 @@ export async function removeCategory(id:React.Key, options?: { [key: string]: an
   console.log(`id:${id}`)
   return request<{}>(`/api/category/${id}`, {
     method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    ...(options || {}),
+  });
+}
+
+export async function getServicesByPaging(params: API.PageParams, options?: { [key: string]: any }) {
+  return request<API.AllService>(`/api/services/paging?page=${params.current}&pageSize=${params.pageSize}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    ...(options || {}),
+  });
+}
+
+export async function getStaticFiles(options?: { [key: string]: any }) {
+  return request<API.Files>(`/api/static/file`, {
+    method: 'GET',
     headers: {
       'Content-Type': 'application/json',
     },

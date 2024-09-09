@@ -36,17 +36,17 @@ export default [
     routes: [
       {
         path: '/service',
-        redirect: '/service/Service',
+        redirect: '/service/service',
       },
       {
         path: '/service/category',
         name: 'category',
-        component: './service/Category',
+        component: './Service/Category',
       },
       {
-        path: '/service/Service',
+        path: '/service/service',
         name: 'service',
-        component: './service/Service',
+        component: './Service/Service',
       }
     ]
   },
@@ -76,6 +76,18 @@ export default [
   {
     path: '/',
     redirect: '/welcome',
+  },
+  {
+    path: '/file',
+    name: 'file',
+    icon: 'smile',
+    routes: [
+      {
+        name: 'manager',
+        path: '/file/manger',
+        component: './File/Manger',
+      },
+    ],
   },
   {
     path: '*',

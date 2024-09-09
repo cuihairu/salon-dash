@@ -18,6 +18,7 @@ import {
 import { FormattedMessage, history, SelectLang, useIntl, useModel, Helmet } from '@umijs/max';
 import { Alert, message, Tabs } from 'antd';
 import Settings from '../../../../config/defaultSettings';
+import {API} from '@/services/admin/typings';
 import React, { useState } from 'react';
 import { flushSync } from 'react-dom';
 import { createStyles } from 'antd-style';
