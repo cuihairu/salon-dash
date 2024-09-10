@@ -51,6 +51,7 @@
     "@umijs/route-utils": "^2.2.2",
     "antd": "^5.20.4",
     "antd-style": "^3.6.2",
+    "bizcharts": "^4.1.23",
     "classnames": "^2.5.1",
     "omit.js": "^2.0.2",
     "querystring": "^0.2.1",

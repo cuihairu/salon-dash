@@ -178,3 +178,13 @@ export async function updateStaticFile(formData: FormData,options?: { [key: stri
     ...(options || {}),
   });
 }
+
+export async function fetchStatistics(options?: { [key: string]: any }) {
+  return request<API.Statistics>(`/api/statistics/welcome`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    ...(options || {}),
+  });
+}

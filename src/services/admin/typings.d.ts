@@ -147,4 +147,13 @@ declare namespace API {
     url: string;
   };
   type AllFileWithPermissions = ListData<FileWithPermissions[]>;
+
+  type Statistics = {
+    todayIncome: number,
+    todayVisitors: number,
+    monthIncome: number,
+    yearIncome: number,
+    dailyVisitors: number[],
+    monthlyVisitors: number[],
+  };
 }
