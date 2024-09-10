@@ -102,7 +102,7 @@ export const errorConfig: RequestConfig = {
   requestInterceptors: [
     (config: RequestOptions) => {
       // 拦截请求配置，进行个性化处理。
-      const url = config?.url?.concat(`?ts=${Date.now()}`);
+      const url = config?.url? config.url.includes('?') ? config.url.concat(`&ts=${Date.now()}`) : config.url.concat(`?ts=${Date.now()}`):'';
       return { ...config, url };
     },
     authHeaderInterceptor

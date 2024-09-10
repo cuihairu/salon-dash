@@ -140,5 +140,11 @@ declare namespace API {
     updated_at?: number;
   };
   type AllService = ListData<Service[]>;
-  type Files =  string[];
+
+  type FileWithPermissions =  {
+    filename: string;
+    perm?: string;
+    url: string;
+  };
+  type AllFileWithPermissions = ListData<FileWithPermissions[]>;
 }

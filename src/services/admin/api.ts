@@ -1,7 +1,7 @@
 // @ts-ignore
 /* eslint-disable */
 import { request } from '@umijs/max';
-import {API} from "@/services/admin/typings"
+import { API} from "@/services/admin/typings"
 
 
 /** 获取当前的用户 GET /api/admin/current */
@@ -146,11 +146,34 @@ export async function getServicesByPaging(params: API.PageParams, options?: { [k
   });
 }
 
-export async function getStaticFiles(options?: { [key: string]: any }) {
-  return request<API.Files>(`/api/static/file`, {
+export async function getStaticFiles(params: API.PageParams,options?: { [key: string]: any }) {
+  return request<API.AllFileWithPermissions>(`/api/static/files?page=${params.current}&pageSize=${params.pageSize}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
+    },
+    ...(options || {}),
+  });
+}
+
+export async function deleteStaticFile(filename: string,options?: { [key: string]: any }) {
+  //const encodedFilename = encodeURIComponent(filename);
+  //console.log("encodedFilename:",encodedFilename);
+  return request<{}>(`/api/static/file/${filename}`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    ...(options || {}),
+  });
+}
+
+export async function updateStaticFile(formData: FormData,options?: { [key: string]: any }) {
+  return request<{}>(`/api/static/upload`, {
+    method: 'POST',
+    data: formData,
+    headers: {
+      'Content-Type': 'multipart/form-data',
     },
     ...(options || {}),
   });
