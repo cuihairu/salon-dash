@@ -70,10 +70,10 @@ const StatisticsPanel = () => {
                 </Col>
                 <Col span={24}>
                     <ProCard title="日客流量">
-                        <Chart height={400} autoFit data={data.dailyVisitors.map((count, index) => ({ day: `Day ${index + 1}`, count }))}>
+                        <Chart height={400} autoFit data={data.dailyVisitors.map((count, index) => ({ day: `第${index + 1}天`, count }))}>
                             <Axis name="day" />
                             <Axis name="count" />
-                            <Legend />
+                            <Legend  container={{}}/>
                             <Tooltip />
                             <Line position="day*count" />
                         </Chart>
@@ -81,10 +81,10 @@ const StatisticsPanel = () => {
                 </Col>
                 <Col span={24}>
                     <ProCard title="月客流量">
-                        <Chart height={400} autoFit data={data.monthlyVisitors.map((count, index) => ({ month: `Month ${index + 1}`, count }))}>
+                        <Chart height={400} autoFit data={data.monthlyVisitors.map((count, index) => ({ month: `${index + 1}月`, count }))}>
                             <Axis name="month" />
                             <Axis name="count" />
-                            <Legend />
+                            <Legend  container={{}}/>
                             <Tooltip />
                             <Line position="month*count" />
                         </Chart>
